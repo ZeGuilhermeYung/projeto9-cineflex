@@ -1,20 +1,21 @@
 import React from "react";
 import { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import axios from 'axios';
 import loadingReel from "../assets/img/loading-reel.gif";
 
-function Movie ( {id, posterURL} ) {
+function Movie ( {idFilme, title, posterURL} ) {
   return (
-    <Poster id={id} >
-      <img src={posterURL} alt="" />
-    </Poster>
+    <Link id={idFilme} to={`/sessoes/${idFilme}`}>
+      <Poster id={idFilme} >
+        <img src={posterURL} alt={title} />
+      </Poster>
+    </Link> 
   );
 }
 
-export default function Movies () {
-  const [movies, setMovies] = useState([]);
-
+export default function Movies ( {movies, setMovies} ) {
 	useEffect(() => {
 		const promise = axios.get("https://mock-api.driven.com.br/api/v7/cineflex/movies");
 
@@ -33,7 +34,7 @@ export default function Movies () {
         : movies.map((movie, index) =>
         <Movie
           key={index}
-          id={movie.id}
+          idFilme={movie.id}
           title={movie.title}
           posterURL={movie.posterURL}
           overview={movie.overview}
