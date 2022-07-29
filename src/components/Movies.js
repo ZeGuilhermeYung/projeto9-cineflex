@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import loadingReel from "../assets/img/loading-reel.gif";
 
 function Movie ( {id, posterURL} ) {
   return (
@@ -19,19 +20,24 @@ export default function Movies () {
 
 		promise.then(response => {
 			setMovies(response.data);
-      //console.log(response.data);
 		});
 	}, []);
 
-
-  console.log(movies);
   return (
     <MoviesSection>
       <header>
         <h3>Selecione o filme</h3>
       </header>
       <main>
-        {movies.map((movie, index) => <Movie key={index} id={movie.id} title={movie.title} posterURL={movie.posterURL} overview={movie.overview} releaseDate={movie.releaseDate} />)}
+        {(movies.length === 0) ? <img src={loadingReel} />
+        : movies.map((movie, index) =>
+        <Movie
+          key={index}
+          id={movie.id}
+          title={movie.title}
+          posterURL={movie.posterURL}
+          overview={movie.overview}
+          releaseDate={movie.releaseDate} />)}
       </main>
     </MoviesSection>
   );
@@ -54,9 +60,9 @@ const MoviesSection = styled.section`
     flex-wrap: wrap;
     margin: 0 15px 25px 15px;
   }
-  ion-icon {
-    font-size: 18px;
-    line-height: 21px;
+  main img {
+    width: 100%;
+    height: 100%;
   }
 `;
 
