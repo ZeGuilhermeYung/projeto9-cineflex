@@ -4,8 +4,8 @@ export default function Header () {
   return (
     <TitleMenu>
       <div>
-      <ion-icon name="return-up-back"></ion-icon>
-      Voltar
+        <ion-icon name="return-up-back"></ion-icon>
+        <h6>Voltar</h6>
       </div>
       <h1>CINEFLEX</h1>
     </TitleMenu>
@@ -26,7 +26,12 @@ const TitleMenu = styled.header`
 
   div {
     position: fixed;
-    top: 33px;
+    top: 24px;
     left: 20px;
+    display: flex;
+  }
+  ion-icon {
+    font-size: 18px;
+    line-height: 21px;
   }
 `;
