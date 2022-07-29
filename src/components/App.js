@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
-import styled from 'styled-components';
 import GlobalStyle from "./GlobalStyles";
+import styled from 'styled-components';
 import Header from "./Header";
 import Movies from "./Movies";
 import Seats from "./Seats";
@@ -16,12 +16,15 @@ export default function App () {
       <BrowserRouter >
       <Header />
         <Routes >
-          <Route path="/" element={<Movies />} />
-          <Route path="/sessoes/:idFilme" element={<Sessions />} />
+          {/* <Route path="/" element={<Movies />} /> */}
+          {/* <Route path="/sessoes/:idFilme" element={<Sessions />} />
           <Route path="/sessoes/:idFilme/assentos/:idSessao" element={<Seats />} />
-          <Route path="/sucesso" element={<Success />} />
+          <Route path="/sucesso" element={<Success />} /> */}
         </Routes>
       </BrowserRouter>
     </>
   );
 }
+
+
+
