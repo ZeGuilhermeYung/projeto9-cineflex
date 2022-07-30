@@ -5,14 +5,13 @@ import styled from 'styled-components';
 import axios from "axios";
 import loadingCountdown from "../assets/img/loading-countdown.gif";
 
-function Session ( {id, name, idFilme} ) {
+function Session ( {idSessao, name, idFilme} ) {
   return (
-    <Link id={id} to={`/sessoes/${idFilme}/assentos/${id}`} >
+    <Link id={idSessao} to={`/sessoes/${idFilme}/assentos/${idSessao}`} >
       <SessionDiv>
         <h6>{name}</h6>
       </SessionDiv>
-    </Link>
-    
+    </Link> 
   );
 }
 
@@ -35,7 +34,7 @@ function SessionDay ( {showtimes, weekday, date, idFilme} ) {
       {showtimes.map((showtime, index) =>
         <Session
           key={index}
-          id={showtime.id}
+          idSessao={showtime.id}
           name={showtime.name} 
           idFilme={idFilme} />)}
       </div>

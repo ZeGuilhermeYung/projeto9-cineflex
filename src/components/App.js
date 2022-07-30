@@ -5,13 +5,14 @@ import GlobalStyle from "./GlobalStyles";
 import Header from "./Header";
 import Movies from "./Movies";
 import Sessions from "./Sessions";
-///import Seats from "./Seats";
+import Seats from "./Seats";
 //import Success from "./Success";
 
 
 export default function App () {
   const [movies, setMovies] = useState([]);
   const [sessions, setSessions] = useState([]);
+  const [seats, setSeats] = useState([]);
 
   return (
     <>
@@ -21,8 +22,8 @@ export default function App () {
         <Routes >
           <Route path="/" element={<Movies movies={movies} setMovies={setMovies} />} />
           <Route path="/sessoes/:idFilme" element={<Sessions sessions={sessions} setSessions={setSessions} />} />
-          {/* <Route path="/sessoes/:idFilme/assentos/:idSessao" element={<Seats />} />
-          <Route path="/sucesso" element={<Success />} /> */}
+          <Route path="/sessoes/:idFilme/assentos/:idSessao" element={<Seats seats={seats} setSeats={setSeats} />} />
+          {/* <Route path="/sucesso" element={<Success />} /> */}
         </Routes>
       </BrowserRouter>
     </>
