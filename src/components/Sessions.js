@@ -8,14 +8,14 @@ import loadingCountdown from "../assets/img/loading-countdown.gif";
 function Session ( {idSessao, name, idFilme} ) {
   return (
     <Link id={idSessao} to={`/sessoes/${idFilme}/assentos/${idSessao}`} >
-      <SessionDiv>
+      <SessionSpan>
         <h6>{name}</h6>
-      </SessionDiv>
+      </SessionSpan>
     </Link> 
   );
 }
 
-const SessionDiv = styled.span`
+const SessionSpan = styled.span`
   width: 83px;
   height: 43px;
   background-color: #E8833A;

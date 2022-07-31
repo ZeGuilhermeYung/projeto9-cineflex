@@ -1,3 +1,50 @@
+import React from "react";
+import { useState, useEffect } from 'react';
+import { Link, useParams } from "react-router-dom";
+import styled from 'styled-components';
+import axios from "axios";
+import loadingCountdown from "../assets/img/loading-countdown.gif";
+
+function Seat ( {id, name, isAvailable} ) {
+  const [available, setAvailabe] = useState(isAvailable);
+  console.log(available);
+  return (
+    <>
+      {isAvailable ?
+      <SeatAvailable id={id} onClick={() => {setAvailabe(!available)}} >
+        <p>{name}</p>
+      </SeatAvailable>
+      :
+      <SeatUnavailable id={id} onClick={() => {setAvailabe(!available)}} >
+        <p>{name}</p>
+      </SeatUnavailable> }
+    </>
+  ); 
+}
+
+const SeatAvailable = styled.div`
+  width: 26px;
+  height: 26px;
+  background-color: #C3CFD9;
+  border: 1px solid #808F9D;
+  border-radius: 50%;
+  margin: 0 3px 18px 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const SeatUnavailable = styled.div`
+  width: 26px;
+  height: 26px;
+  background-color: #F7C52B;
+  border: 1px solid #808F9D;
+  border-radius: 50%;
+  margin: 0 3px 18px 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export default function Seats ( {seats, setSeats} ) {
   const { idSessao } = useParams();
 
@@ -10,21 +57,54 @@ export default function Seats ( {seats, setSeats} ) {
 	}, []);
 
   return (
-    <SessionsSection>
+    <SeatsSection>
       <header>
-        <h3>Selecione o horário</h3>
+        <h3>Selecione o(s) assento(s)</h3>
       </header>
       <main>
-        {(seats.length === 0) ? <img src={loadingCountdown} />
-        : seats.map((seat, index) =>
-        <SessionDay
-          key={index}
-          id={seats.id}
-          weekday={day.weekday}
-          date={day.date}
-          showtimes={day.showtimes}
-          idFilme={idFilme} />)}
+        <SeatsDiv>
+          {(seats.length === 0) ? <img src={loadingCountdown} />
+          : seats.seats.map((seat, index) =>
+          <Seat
+            key={index}
+            id={seat.id}
+            name={Number(seat.name) < 10 ? `0${Number(seat.name)}` : seat.name}
+            isAvailable={seat.isAvailable} />)}
+        </SeatsDiv>
       </main>
-    </SessionsSection>
+    </SeatsSection>
   );
 }
+
+const SeatsSection = styled.section`
+  width: 100%;
+  margin-top: 67px;
+  
+  header {
+    width: 100%;
+    height: 97px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  main {
+    margin: 0 24px 30px 24px;
+  }
+`;
+
+const SeatsDiv = styled.div`
+  width: 100%;
+  height: 203px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  
+  p {
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #000000;
+  }
+`;
