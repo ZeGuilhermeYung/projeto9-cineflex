@@ -6,43 +6,36 @@ import axios from "axios";
 import loadingCountdown from "../assets/img/loading-countdown.gif";
 
 function Seat ( {id, name, isAvailable} ) {
-  const [available, setAvailabe] = useState(isAvailable);
-  console.log(available);
+  const [available, setAvailable] = useState(isAvailable);
+  const [selected, setSelected] = useState(false);
+
   return (
-    <>
-      {isAvailable ?
-      <SeatAvailable id={id} onClick={() => {setAvailabe(!available)}} >
+      <SeatDiv
+        id={id}
+        seatAvailableColor={available}
+        seatSelectedColor={selected}
+        onClick={available ? () => {setSelected(!selected)} : () => {setSelected(selected)}} >
         <p>{name}</p>
-      </SeatAvailable>
-      :
-      <SeatUnavailable id={id} onClick={() => {setAvailabe(!available)}} >
-        <p>{name}</p>
-      </SeatUnavailable> }
-    </>
+      </SeatDiv>
   ); 
 }
 
-const SeatAvailable = styled.div`
+const SeatDiv = styled.div`
   width: 26px;
   height: 26px;
-  background-color: #C3CFD9;
+  background-color: ${
+    props => 
+      (props.seatAvailableColor && !props.seatSelectedColor) ? "#C3CFD9"
+      : (props.seatAvailableColor && props.seatSelectedColor) ? "#45BDB0"
+      : "#F7C52B"
+  };
   border: 1px solid #808F9D;
   border-radius: 50%;
   margin: 0 3px 18px 3px;
   display: flex;
   justify-content: center;
   align-items: center;
-`;
-const SeatUnavailable = styled.div`
-  width: 26px;
-  height: 26px;
-  background-color: #F7C52B;
-  border: 1px solid #808F9D;
-  border-radius: 50%;
-  margin: 0 3px 18px 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  cursor: pointer;
 `;
 
 export default function Seats ( {seats, setSeats} ) {
