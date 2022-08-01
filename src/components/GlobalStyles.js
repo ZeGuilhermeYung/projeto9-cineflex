@@ -85,9 +85,12 @@ h5 {
   line-height: 23px;
   letter-spacing: 0.02em;
 }
-h6 {
+h6, input::placeholder {
   font-size: 18px;
   line-height: 21px;
+}
+input::placeholder {
+  color: #AFAFAF;
 }
 `;
  

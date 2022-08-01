@@ -45,10 +45,15 @@ const SeatDiv = styled.div`
   background-color: ${
     props => 
       (props.seatAvailableColor && !props.seatSelectedColor) ? "#C3CFD9"
+      : (props.seatAvailableColor && props.seatSelectedColor) ? "#8DD7CF"
+      : "#FBE192"
+  };
+  border: 1px solid ${
+    props => 
+      (props.seatAvailableColor && !props.seatSelectedColor) ? "#808F9D"
       : (props.seatAvailableColor && props.seatSelectedColor) ? "#45BDB0"
       : "#F7C52B"
   };
-  border: 1px solid #808F9D;
   border-radius: 50%;
   margin: 0 3px 18px 3px;
   display: flex;
@@ -122,10 +127,33 @@ export default function Seats () {
               seatsSelected={seatsSelected}
               setSeatsSelected={setSeatsSelected} />)}
           </SeatsDiv>
+          <SeatsOptions>
+            <div>
+              <SeatDivOptions
+                color="#8DD7CF"
+                borderColor="#45BDB0" >
+              </SeatDivOptions>
+              <p>Selecionado</p>
+            </div>
+            <div>
+              <SeatDivOptions
+                color="#C3CFD9" 
+                borderColor="#808F9D" >
+              </SeatDivOptions>
+              <p>Disponível</p>
+            </div>
+            <div>
+              <SeatDivOptions
+                color="#FBE192"
+                borderColor="#F7C52B" >
+              </SeatDivOptions>
+              <p>Indisponível</p>
+            </div>
+          </SeatsOptions>
           <form action="" onSubmit={sendForm} >
-            <label htmlFor="">Nome do comprador:</label>
+            <label htmlFor=""><h6>Nome do comprador:</h6></label>
             <input type="text" name="name" onChange={handleForm} value={form.name} placeholder="Digite seu nome..."  required />
-            <label htmlFor="">CPF do comprador:</label>
+            <label htmlFor=""><h6>CPF do comprador:</h6></label>
             <input type="number" name="cpf" onChange={handleForm} value={form.cpf} pattern="[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}" placeholder="Digite seu CPF..."  required />
             <button type="submit">Reservar assento(s)</button>
           </form>
@@ -151,11 +179,48 @@ const SeatsSection = styled.section`
   main {
     margin: 0 24px 30px 24px;
   }
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+  label {
+    margin-bottom: 3px;
+  }
+  input {
+    width: 100%;
+    height: 51px;
+    background: #FFFFFF;
+    border: 1px solid #D5D5D5;
+    border-radius: 3px;
+    margin-bottom: 7px;
+    display: flex;
+    align-items: center;
+  }
+  button {
+    all: unset;
+    margin-top: 57px;
+    width: 225px;
+    height: 42px;
+    background-color: #E8833A;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
 `;
 
 const SeatsDiv = styled.div`
   width: 100%;
-  height: 203px;
+  min-height: 203px;
+  height: auto;
+  margin-bottom: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -168,4 +233,34 @@ const SeatsDiv = styled.div`
     letter-spacing: 0.04em;
     color: #000000;
   }
+`;
+const SeatsOptions = styled.div`
+width: 100%;
+margin-bottom: 41px;
+display: flex;
+justify-content: space-around;
+div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+p {
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.013em;
+    color: #4E5A65;
+    text-align: center;
+  }
+`;
+const SeatDivOptions = styled.div`
+  width: 26px;
+  height: 26px;
+  background-color: ${props => props.color};
+  border: 1px solid ${props => props.borderColor};
+  border-radius: 50%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;

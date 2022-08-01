@@ -26,9 +26,11 @@ export default function Success () {
           <h4>Nome: {location.state.buyers[0].nome}</h4>
           <h4>CPF: {location.state.buyers[0].cpf}</h4>
         </TicketInfoDiv>
-        <Link to="/">
-          <button>Voltar pra Home</button>
-        </Link>
+        <span>
+          <Link to="/">
+            <button>Voltar pra Home</button>
+          </Link>
+        </span>
       </main>
     </SuccessSection>
 );
@@ -52,6 +54,31 @@ const SuccessSection = styled.section`
   }
   main {
     margin: 0 30px 30px 30px;
+  }
+  main span {
+    margin: 0 30px 30px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  button {
+    all: unset;
+    margin-top: 57px;
+    width: 225px;
+    height: 42px;
+    background-color: #E8833A;
+    border-radius: 3px;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: 0.04em;
+    color: #FFFFFF;
+    cursor: pointer;
   }
 `;
 
