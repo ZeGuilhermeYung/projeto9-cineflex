@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 
-export default function FooterInfo ( {sessions = "", seats = "", imgURL = ""} ) {
+export default function FooterInfo ( {sessions = "", seats = ""} ) {
   return (
     <Footer>
       <img src={sessions ? sessions.posterURL : seats.movie.posterURL} alt="" />

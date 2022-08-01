@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useState } from 'react';
 import GlobalStyle from "./GlobalStyles";
 import Header from "./Header";
 import Movies from "./Movies";
