@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from 'react';
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from 'styled-components';
 import axios from "axios";
 import loadingCountdown from "../assets/img/loading-countdown.gif";
@@ -63,12 +63,13 @@ export default function Seats ( {seats, setSeats, seatsSelected, setSeatsSelecte
     cpf: '',
     seats: [],
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
 		const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/showtimes/${idSessao}/seats`);
 
-		promise.then(response => {
-			setSeats(response.data);
+		promise.then(sessionSeats => {
+			setSeats(sessionSeats.data);
 		});
 	}, []);
 
@@ -76,13 +77,22 @@ export default function Seats ( {seats, setSeats, seatsSelected, setSeatsSelecte
 		event.preventDefault();
     const seatsIds = seatsSelected.map(ticket => (ticket.seatId));
     const buyers = seatsSelected.map(ticket => ({ idAssento: ticket.seatNumber, nome: form.name, cpf: form.cpf }));
+    const tickets = {ids: seatsIds, compradores: buyers};
+    const ticketInfo = {
+      seatsIds: seats.id,
+      movie: seats.movie.title,
+      date: seats.day.date,
+      session: seats.name,
+      seatsNumbers: seatsIds,
+      buyers: buyers
+    }
 
-		const request = axios.post("https://mock-api.driven.com.br/api/v7/cineflex/seats/book-many", {
-			ids: seatsIds,
-      compradores: buyers
-		});
-    request.then();
-    console.log(request.ids, request.compradores);
+		const request = axios.post("https://mock-api.driven.com.br/api/v7/cineflex/seats/book-many", tickets);
+    request.then(sessionSeats => {
+      navigate('/sucesso', {
+          replace: true,
+          state: ticketInfo
+      })});
   }
   function handleForm (e) {
     setForm({

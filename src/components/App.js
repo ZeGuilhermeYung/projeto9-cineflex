@@ -6,7 +6,7 @@ import Header from "./Header";
 import Movies from "./Movies";
 import Sessions from "./Sessions";
 import Seats from "./Seats";
-//import Success from "./Success";
+import Success from "./Success";
 
 
 export default function App () {
@@ -24,7 +24,7 @@ export default function App () {
           <Route path="/" element={<Movies movies={movies} setMovies={setMovies} />} />
           <Route path="/sessoes/:idFilme" element={<Sessions sessions={sessions} setSessions={setSessions} />} />
           <Route path="/sessoes/:idFilme/assentos/:idSessao" element={<Seats seats={seats} setSeats={setSeats} seatsSelected={seatsSelected} setSeatsSelected={setSeatsSelected} />} />
-          {/* <Route path="/sucesso" element={<Success />} /> */}
+          <Route path="/sucesso" element={<Success />} />
         </Routes>
       </BrowserRouter>
     </>
