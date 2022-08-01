@@ -6,15 +6,14 @@ import axios from "axios";
 import loadingCountdown from "../assets/img/loading-countdown.gif";
 
 function Seat ( {id, name, isAvailable} ) {
-  const [available, setAvailable] = useState(isAvailable);
   const [selected, setSelected] = useState(false);
 
   return (
       <SeatDiv
         id={id}
-        seatAvailableColor={available}
+        seatAvailableColor={isAvailable}
         seatSelectedColor={selected}
-        onClick={available ? () => {setSelected(!selected)} : () => {setSelected(selected)}} >
+        onClick={() => {if (isAvailable) {setSelected(!selected)}}} >
         <p>{name}</p>
       </SeatDiv>
   ); 
