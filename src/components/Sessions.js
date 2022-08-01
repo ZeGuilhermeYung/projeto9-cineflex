@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import { Link, useParams } from "react-router-dom";
+import Footer from "./FooterInfo";
 import styled from 'styled-components';
 import axios from "axios";
 import loadingCountdown from "../assets/img/loading-countdown.gif";
@@ -60,7 +61,8 @@ const SessionDayDiv = styled.div`
   }
 `;
 
-export default function Sessions ( {sessions, setSessions} ) {
+export default function Sessions () {
+  const [sessions, setSessions] = useState([]);
   const { idFilme } = useParams();
 
   useEffect(() => {
@@ -72,28 +74,32 @@ export default function Sessions ( {sessions, setSessions} ) {
 	}, []);
 
   return (
-    <SessionsSection>
-      <header>
-        <h3>Selecione o horário</h3>
-      </header>
-      <main>
-        {(sessions.length === 0) ? <img src={loadingCountdown} />
-        : sessions.days.map((day, index) =>
-        <SessionDay
-          key={index}
-          id={day.id}
-          weekday={day.weekday}
-          date={day.date}
-          showtimes={day.showtimes}
-          idFilme={idFilme} />)}
-      </main>
-    </SessionsSection>
+    <>
+      <SessionsSection>
+        <header>
+          <h3>Selecione o horário</h3>
+        </header>
+        <main>
+          {(sessions.length === 0) ? <img src={loadingCountdown} />
+          : sessions.days.map((day, index) =>
+          <SessionDay
+            key={index}
+            id={day.id}
+            weekday={day.weekday}
+            date={day.date}
+            showtimes={day.showtimes}
+            idFilme={idFilme} />)}
+        </main>
+      </SessionsSection>
+      <Footer sessions={sessions} />
+    </>
   );
 }
 
 const SessionsSection = styled.section`
   width: 100%;
   margin-top: 67px;
+  margin-bottom: 147px;
   
   header {
     width: 100%;

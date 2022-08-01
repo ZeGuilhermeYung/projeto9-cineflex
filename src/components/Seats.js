@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
+import Footer from "./FooterInfo";
 import styled from 'styled-components';
 import axios from "axios";
 import loadingCountdown from "../assets/img/loading-countdown.gif";
@@ -56,7 +57,9 @@ const SeatDiv = styled.div`
   cursor: pointer;
 `;
 
-export default function Seats ( {seats, setSeats, seatsSelected, setSeatsSelected} ) {
+export default function Seats () {
+  const [seats, setSeats] = useState([]);
+  const [seatsSelected, setSeatsSelected] = useState([]);
   const { idSessao } = useParams();
   const [form, setForm] = React.useState({
     name: '',
@@ -102,37 +105,41 @@ export default function Seats ( {seats, setSeats, seatsSelected, setSeatsSelecte
   }
 
   return (
-    <SeatsSection>
-      <header>
-        <h3>Selecione o(s) assento(s)</h3>
-      </header>
-      <main>
-        <SeatsDiv>
-          {(seats.length === 0) ? <img src={loadingCountdown} />
-          : seats.seats.map((seat, index) =>
-          <Seat
-            key={index}
-            id={seat.id}
-            name={Number(seat.name) < 10 ? `0${Number(seat.name)}` : seat.name}
-            isAvailable={seat.isAvailable} 
-            seatsSelected={seatsSelected}
-            setSeatsSelected={setSeatsSelected} />)}
-        </SeatsDiv>
-        <form action="" onSubmit={sendForm} >
-          <label htmlFor="">Nome do comprador:</label>
-          <input type="text" name="name" onChange={handleForm} value={form.name} placeholder="Digite seu nome..."  required />
-          <label htmlFor="">CPF do comprador:</label>
-          <input type="number" name="cpf" onChange={handleForm} value={form.cpf} pattern="[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}" placeholder="Digite seu CPF..."  required />
-          <button type="submit">Reservar assento(s)</button>
-        </form>
-      </main>
-    </SeatsSection>
+    <>
+      <SeatsSection>
+        <header>
+          <h3>Selecione o(s) assento(s)</h3>
+        </header>
+        <main>
+          <SeatsDiv>
+            {(seats.length === 0) ? <img src={loadingCountdown} />
+            : seats.seats.map((seat, index) =>
+            <Seat
+              key={index}
+              id={seat.id}
+              name={Number(seat.name) < 10 ? `0${Number(seat.name)}` : seat.name}
+              isAvailable={seat.isAvailable} 
+              seatsSelected={seatsSelected}
+              setSeatsSelected={setSeatsSelected} />)}
+          </SeatsDiv>
+          <form action="" onSubmit={sendForm} >
+            <label htmlFor="">Nome do comprador:</label>
+            <input type="text" name="name" onChange={handleForm} value={form.name} placeholder="Digite seu nome..."  required />
+            <label htmlFor="">CPF do comprador:</label>
+            <input type="number" name="cpf" onChange={handleForm} value={form.cpf} pattern="[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}" placeholder="Digite seu CPF..."  required />
+            <button type="submit">Reservar assento(s)</button>
+          </form>
+        </main>
+      </SeatsSection>
+      {seats.length === 0 ? <></> : <Footer seats={seats} />}
+    </>
   );
 }
 
 const SeatsSection = styled.section`
   width: 100%;
   margin-top: 67px;
+  margin-bottom: 147px;
   
   header {
     width: 100%;

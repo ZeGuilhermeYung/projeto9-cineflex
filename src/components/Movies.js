@@ -15,7 +15,8 @@ function Movie ( {idFilme, title, posterURL} ) {
   );
 }
 
-export default function Movies ( {movies, setMovies} ) {
+export default function Movies () {
+  const [movies, setMovies] = useState([]);
 	useEffect(() => {
 		const promise = axios.get("https://mock-api.driven.com.br/api/v7/cineflex/movies");
 
