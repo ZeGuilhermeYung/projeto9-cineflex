@@ -5,15 +5,34 @@ import styled from 'styled-components';
 import axios from "axios";
 import loadingCountdown from "../assets/img/loading-countdown.gif";
 
-function Seat ( {id, name, isAvailable} ) {
+function Seat ( {id, name, isAvailable, seatsSelected, setSeatsSelected} ) {
   const [selected, setSelected] = useState(false);
 
+  function verifySeats () {
+
+    setSelected(!selected);
+    const checkId = seatsSelected.some(element => element.seatId === id);
+    if(checkId) {
+      const arrayaux = [...seatsSelected];
+      for(let i = 0; i < seatsSelected.length; i++){
+          if(id === seatsSelected[i].seatId){
+              arrayaux.splice(i, 1);
+              setSeatsSelected(arrayaux);
+          }
+      }
+    } else {
+      setSeatsSelected([...seatsSelected, {seatId: id, seatNumber: name}].sort((a, b) => a - b));
+    } 
+  }
+  
   return (
       <SeatDiv
         id={id}
         seatAvailableColor={isAvailable}
         seatSelectedColor={selected}
-        onClick={() => {if (isAvailable) {setSelected(!selected)}}} >
+        onClick={isAvailable ? 
+          () => {verifySeats ()}
+          : () => {alert("Esse assento não está disponível")}} >
         <p>{name}</p>
       </SeatDiv>
   ); 
@@ -37,8 +56,13 @@ const SeatDiv = styled.div`
   cursor: pointer;
 `;
 
-export default function Seats ( {seats, setSeats} ) {
+export default function Seats ( {seats, setSeats, seatsSelected, setSeatsSelected} ) {
   const { idSessao } = useParams();
+  const [form, setForm] = React.useState({
+    name: '',
+    cpf: '',
+    seats: [],
+  });
 
   useEffect(() => {
 		const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/showtimes/${idSessao}/seats`);
@@ -47,6 +71,25 @@ export default function Seats ( {seats, setSeats} ) {
 			setSeats(response.data);
 		});
 	}, []);
+
+	function sendForm (event) {
+		event.preventDefault();
+    const seatsIds = seatsSelected.map(ticket => (ticket.seatId));
+    const buyers = seatsSelected.map(ticket => ({ idAssento: ticket.seatNumber, nome: form.name, cpf: form.cpf }));
+
+		const request = axios.post("https://mock-api.driven.com.br/api/v7/cineflex/seats/book-many", {
+			ids: seatsIds,
+      compradores: buyers
+		});
+    request.then();
+    console.log(request.ids, request.compradores);
+  }
+  function handleForm (e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    }) 
+  }
 
   return (
     <SeatsSection>
@@ -61,8 +104,17 @@ export default function Seats ( {seats, setSeats} ) {
             key={index}
             id={seat.id}
             name={Number(seat.name) < 10 ? `0${Number(seat.name)}` : seat.name}
-            isAvailable={seat.isAvailable} />)}
+            isAvailable={seat.isAvailable} 
+            seatsSelected={seatsSelected}
+            setSeatsSelected={setSeatsSelected} />)}
         </SeatsDiv>
+        <form action="" onSubmit={sendForm} >
+          <label htmlFor="">Nome do comprador:</label>
+          <input type="text" name="name" onChange={handleForm} value={form.name} placeholder="Digite seu nome..."  required />
+          <label htmlFor="">CPF do comprador:</label>
+          <input type="number" name="cpf" onChange={handleForm} value={form.cpf} pattern="[0-9]{3}\.?[0-9]{3}\.?[0-9]{3}\-?[0-9]{2}" placeholder="Digite seu CPF..."  required />
+          <button type="submit">Reservar assento(s)</button>
+        </form>
       </main>
     </SeatsSection>
   );

@@ -13,6 +13,7 @@ export default function App () {
   const [movies, setMovies] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [seats, setSeats] = useState([]);
+  const [seatsSelected, setSeatsSelected] = useState([]);
 
   return (
     <>
@@ -22,7 +23,7 @@ export default function App () {
         <Routes >
           <Route path="/" element={<Movies movies={movies} setMovies={setMovies} />} />
           <Route path="/sessoes/:idFilme" element={<Sessions sessions={sessions} setSessions={setSessions} />} />
-          <Route path="/sessoes/:idFilme/assentos/:idSessao" element={<Seats seats={seats} setSeats={setSeats} />} />
+          <Route path="/sessoes/:idFilme/assentos/:idSessao" element={<Seats seats={seats} setSeats={setSeats} seatsSelected={seatsSelected} setSeatsSelected={setSeatsSelected} />} />
           {/* <Route path="/sucesso" element={<Success />} /> */}
         </Routes>
       </BrowserRouter>
